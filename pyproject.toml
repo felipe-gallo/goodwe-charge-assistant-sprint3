@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goodwe-charge-assistant"
+version = "3.0.0"
+description = "Agente conversacional do EV Challenge GoodWe com memória, guardrails e avaliação de modelos."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "langchain-core>=1.0,<2.0",
+  "langgraph>=1.0,<2.0",
+  "langchain-openai>=1.0,<2.0",
+  "langchain-google-genai>=3.0,<5.0",
+  "python-dotenv>=1.0,<2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0,<10.0", "pytest-cov>=5.0,<8.0", "reportlab>=4.0,<6.0"]
+
+[project.scripts]
+goodwe-chat = "goodwe_agent.cli:main"
+goodwe-eval = "goodwe_agent.evaluation:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
