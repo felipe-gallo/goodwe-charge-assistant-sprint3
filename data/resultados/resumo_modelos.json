@@ -1,0 +1,20 @@
+[
+  {
+    "provider": "legacy",
+    "model": "regras-if-elif-sprint2",
+    "configuration": {
+      "temperature": "0.2 (padrão; configurável por ambiente)",
+      "max_tokens": "500 (padrão; configurável por ambiente)",
+      "top_p": "padrão do provedor; não alterado junto com temperature"
+    },
+    "evaluated_at": "2026-09-09T21:13:22.899192+00:00",
+    "passed": 5,
+    "total": 12,
+    "pass_rate": 0.417,
+    "average_latency_ms": 0.0,
+    "total_tokens": 0,
+    "functional_score": 1.0,
+    "memory_pass": false,
+    "security_pass_rate": 0
+  }
+]
