@@ -232,9 +232,9 @@ def build():
         ], [61 * mm, 103 * mm]),
         Spacer(1, 5 * mm),
         p(
-            "Conclusao parcial: a arquitetura ganhou capacidade estrutural comprovada em memoria e "
-            "seguranca. A comparacao de qualidade entre Gemini e OpenAI depende da execucao autenticada "
-            "das APIs; resultados ausentes nao foram estimados.",
+            "Conclusao: a arquitetura ganhou capacidade estrutural comprovada em memoria e seguranca. "
+            "Na execucao autenticada, o Gemini 3.5 Flash Lite atingiu 83,3% no conjunto ampliado, "
+            "contra 41,7% da Sprint 2.",
             s["body"],
         ),
         PageBreak(),
@@ -245,7 +245,8 @@ def build():
         p("Refatoracao", s["h1"]),
         p(
             "O framework escolhido foi o <b>LangGraph</b>, com mensagens do LangChain. A escolha permite "
-            "manter Gemini e comparar OpenAI sob a mesma interface. O framework participa diretamente "
+            "manter Gemini, comparar versoes sob a mesma interface e conservar OpenAI como adaptador "
+            "opcional. O framework participa diretamente "
             "do fluxo: o <b>StateGraph</b> executa os nos, decide rotas e persiste mensagens por "
             "<b>thread_id</b> atraves do <b>InMemorySaver</b>.",
             s["body"],
@@ -274,7 +275,7 @@ def build():
             ["Memoria nativa por sessao", "Memoria atual nao sobrevive ao fim do processo"],
             ["Mesmo teste para provedores distintos", "Metadados de tokens variam por provedor"],
             ["Guardrails deterministas, rapidos e auditaveis", "Padroes ineditos podem exigir novas regras"],
-            ["Chaves somente em variaveis de ambiente", "Execucao comparativa requer duas credenciais"],
+            ["Chaves somente em variaveis de ambiente", "Comparacao exige mais chamadas e sofre variacao de quota"],
         ], [82 * mm, 82 * mm]),
         p("Criterio de projeto", s["h2"]),
         p(
@@ -292,7 +293,7 @@ def build():
         table([
             ["Aspecto", "Sprints 1 e 2", "Sprint 03"],
             ["Arquitetura", "Notebook monolitico e if/elif", "Pacote Python e grafo LangGraph"],
-            ["Modelo", "Gemini declarado, nao usado em conversar()", "Gemini ou OpenAI no no model"],
+            ["Modelo", "Gemini declarado, nao usado em conversar()", "Gemini real no no model; OpenAI opcional"],
             ["Memoria", "Lista para CSV, sem recuperacao", "Mensagens por thread_id"],
             ["Seguranca", "Regra textual de escopo", "Entrada + prompt + saida"],
             ["Avaliacao", "Adequada fixo", "Criterios, CSV, latencia e tokens"],
@@ -303,30 +304,28 @@ def build():
         ], [35 * mm, 62 * mm, 67 * mm], font_size=7.3),
         p("Experimento entre modelos", s["h2"]),
         p(
-            "Foram preparados <b>Gemini 2.5 Flash</b> e <b>GPT-4o mini</b>, ambos com temperature 0,2, "
-            "limite de 500 tokens e top-p padrao. O mesmo conjunto possui cinco funcionais, um cenario "
-            "de memoria com tres turnos e seis casos de seguranca. A regra de decisao elimina qualquer "
-            "modelo que falhe em memoria ou seguranca; entre os aprovados, vence a maior nota funcional, "
-            "com latencia e tokens como desempate.",
+            "Foram executados <b>Gemini 3.5 Flash Lite</b> e <b>Gemini 3.1 Flash Lite</b>, com limite "
+            "de 500 tokens e amostragem fixa do provedor. O enunciado permite versoes do mesmo fornecedor. "
+            "O conjunto possui cinco funcionais, memoria em tres turnos e seis casos de seguranca. Ambos "
+            "passaram em memoria e seguranca; a decisao considera nota funcional, latencia e tokens.",
             s["body"],
         ),
         table([
             ["Modelo", "Funcional", "Memoria", "Seguranca", "Latencia", "Tokens"],
-            ["Gemini 2.5 Flash", "A executar", "A executar", "A executar", "A executar", "A executar"],
-            ["GPT-4o mini", "A executar", "A executar", "A executar", "A executar", "A executar"],
+            ["Gemini 3.5 Lite", "66,7%", "Aprovada", "100%", "7.546 ms", "8.297"],
+            ["Gemini 3.1 Lite", "53,3%", "Aprovada", "100%", "13.148 ms", "9.021"],
         ], [42 * mm, 25 * mm, 23 * mm, 25 * mm, 26 * mm, 23 * mm], font_size=7.0),
         Spacer(1, 4 * mm),
         Table(
             [[p(
-                "PENDENCIA CONTROLADA - O ambiente de desenvolvimento nao continha chaves de API. "
-                "O relatorio_modelos.md explica o comando e recebe os resultados brutos de "
-                "data/resultados/resumo_modelos.json. Nenhuma metrica de modelo foi fabricada.",
+                "RESULTADO - O Gemini 3.5 Flash Lite venceu com 10/12 casos (83,3%), contra 9/12 "
+                "(75,0%) do Gemini 3.1 Flash Lite. Os CSVs e o resumo JSON preservam metricas reais.",
                 s["small"],
             )]],
             colWidths=[164 * mm],
             style=TableStyle([
-                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FFF5D9")),
-                ("BOX", (0, 0), (-1, -1), 0.7, colors.HexColor("#D59B17")),
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#E8F6EF")),
+                ("BOX", (0, 0), (-1, -1), 0.7, colors.HexColor("#22A566")),
                 ("LEFTPADDING", (0, 0), (-1, -1), 8),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 8),
                 ("TOPPADDING", (0, 0), (-1, -1), 7),
@@ -335,10 +334,9 @@ def build():
         ),
         p("A nova arquitetura tornou o chatbot melhor?", s["h2"]),
         p(
-            "<b>Sim, nos atributos ja medidos:</b> memoria, isolamento, resistencia aos seis casos de risco e "
-            "auditabilidade. Ainda nao e correto afirmar qual LLM oferece a melhor qualidade ou custo "
-            "para esta solucao. Essa conclusao sera fechada somente apos rodar as duas APIs e registrar "
-            "os valores, seguindo o protocolo reproduzivel do repositorio.",
+            "<b>Sim.</b> A melhor configuracao da Sprint 03 dobrou a aprovacao do conjunto ampliado: "
+            "83,3% contra 41,7% da Sprint 2, alem de corrigir memoria e atingir 100% em seguranca. O "
+            "Gemini 3.5 Flash Lite foi escolhido por maior nota funcional, menor latencia e menos tokens.",
             s["body"],
         ),
         PageBreak(),
@@ -389,7 +387,7 @@ def build():
         p(
             "LangGraph - Memory: https://docs.langchain.com/oss/python/langgraph/add-memory<br/>"
             "LangChain - Guardrails: https://docs.langchain.com/oss/python/langchain/guardrails<br/>"
-            "OpenAI - Models: https://developers.openai.com/api/docs/models",
+            "Google Gemini - Models: https://ai.google.dev/gemini-api/docs/models",
             s["small"],
         ),
     ]

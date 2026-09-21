@@ -28,8 +28,8 @@ flowchart LR
 
 ### Motivos da escolha
 
-1. A Sprint 2 já citava Gemini; LangGraph permite mantê-lo e comparar OpenAI na
-   mesma interface.
+1. A Sprint 2 já citava Gemini; LangGraph permite comparar versões do Gemini na
+   mesma interface e manter OpenAI como provedor opcional.
 2. A memória por sessão é nativa e identificada pelo `thread_id`.
 3. O grafo torna guardrails e decisões de fluxo explícitos e testáveis.
 4. O modelo pode ser trocado por configuração, sem alterar regras ou testes.
@@ -59,6 +59,5 @@ flowchart LR
 | LLM | Gemini configurado, mas não chamado por `conversar()` | Modelo chamado no nó `model` |
 | Memória | Lista usada somente para exportação | Histórico recuperado por `thread_id` |
 | Segurança | Somente instrução de escopo no prompt | Guardrails de entrada, prompt e saída |
-| Modelos | Um modelo declarado | Gemini e OpenAI intercambiáveis |
+| Modelos | Um modelo declarado | Versões Gemini avaliadas; OpenAI opcional |
 | Avaliação | Rótulo `Adequada` fixo | Critérios reproduzíveis, latência e tokens |
-

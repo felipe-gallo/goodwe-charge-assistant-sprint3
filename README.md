@@ -77,7 +77,7 @@ O framework escolhido foi o **LangGraph**, utilizando também componentes de men
 
 O LangGraph foi escolhido porque permite representar o fluxo conversacional como um grafo explícito, controlar rotas, manter estado por sessão e trocar o modelo de linguagem sem duplicar a lógica da aplicação.
 
-A escolha também permite preservar o Gemini, já utilizado como referência na Sprint 2, e compará-lo com um modelo OpenAI através da mesma interface.
+A escolha também permite preservar o Gemini, comparar versões do modelo sob a mesma interface e manter a OpenAI como provedor opcional.
 
 ### Como o framework participa da solução
 
@@ -194,11 +194,11 @@ GoodWe/EV Challenge.
 ### Modelos preparados para avaliação
 
 | Modelo | Provedor | Temperature | Top-p | Máximo de saída |
-|---|---|---:|---|---:|
-| `gemini-2.5-flash` | Google | 0,2 | padrão do provedor | 500 tokens |
-| `gpt-4o-mini` | OpenAI | 0,2 | padrão do provedor | 500 tokens |
+|---|---|---|---|---:|
+| `gemini-3.5-flash-lite` | Google | amostragem fixa | padrão do provedor | 500 tokens |
+| `gemini-3.1-flash-lite` | Google | amostragem fixa | padrão do provedor | 500 tokens |
 
-O `top_p` não foi alterado ao mesmo tempo que a temperatura para não misturar o efeito de dois parâmetros de amostragem.
+Os modelos informaram que usam amostragem fixa, portanto o valor de `temperature` configurado foi ignorado. O `top_p` não foi alterado.
 
 ### Conjunto utilizado
 
@@ -222,12 +222,14 @@ Os dois modelos recebem exatamente:
 
 ### Resultados
 
-> **Pendente de execução autenticada:** o ambiente usado para desenvolver o repositório não possuía `GEMINI_API_KEY` nem `OPENAI_API_KEY`. Por integridade acadêmica, nenhum resultado de modelo foi inventado. Depois de configurar as duas chaves no `.env`, execute `goodwe-eval --providers gemini openai` e transfira os números gerados para `relatorio_modelos.md`.
+Execução autenticada realizada em 21/09/2026. O enunciado permite versões diferentes do mesmo fornecedor; por isso, foram comparadas duas versões Gemini disponíveis sem custo de uma segunda API.
 
-| Modelo | Nota funcional | Memória | Segurança | Latência média | Tokens totais |
-|---|---:|---:|---:|---:|---:|
-| Gemini 2.5 Flash | A EXECUTAR | A EXECUTAR | A EXECUTAR | A EXECUTAR | A EXECUTAR |
-| GPT-4o mini | A EXECUTAR | A EXECUTAR | A EXECUTAR | A EXECUTAR | A EXECUTAR |
+| Modelo | Aprovação geral | Nota funcional | Memória | Segurança | Latência média | Tokens totais |
+|---|---:|---:|---:|---:|---:|---:|
+| Gemini 3.5 Flash Lite | 83,3% | 66,7% | Aprovada | 100% | 7.546,47 ms | 8.297 |
+| Gemini 3.1 Flash Lite | 75,0% | 53,3% | Aprovada | 100% | 13.147,72 ms | 9.021 |
+
+O **Gemini 3.5 Flash Lite** foi escolhido para a versão final: apresentou maior nota funcional, menor latência e menor consumo de tokens, mantendo memória e segurança aprovadas.
 
 ### Critério para escolha final
 
@@ -262,11 +264,12 @@ Os dois modelos recebem exatamente:
 - Sprint 2 em memória: **reprovada**;
 - Sprint 2 em segurança: **0 de 6**;
 - testes automatizados da arquitetura Sprint 03: **12 de 12 aprovados**;
-- testes reais Gemini x OpenAI: **aguardando execução com as chaves**.
+- Gemini 3.5 Flash Lite: **10/12 casos (83,3%)**, memória aprovada e segurança 100%;
+- Gemini 3.1 Flash Lite: **9/12 casos (75,0%)**, memória aprovada e segurança 100%.
 
 ### A nova arquitetura tornou o chatbot melhor?
 
-Sim nos aspectos já comprovados: memória, isolamento de sessões, segurança, organização, auditabilidade e reprodutibilidade. A conclusão sobre qual LLM oferece a melhor combinação de qualidade, latência e tokens somente será feita após a execução autenticada dos dois modelos.
+Sim. Além de memória, isolamento, segurança e auditabilidade, a melhor configuração da Sprint 03 alcançou 83,3% no conjunto ampliado, contra 41,7% da versão anterior. O Gemini 3.5 Flash Lite foi selecionado pelos resultados quantitativos.
 
 ---
 
@@ -368,14 +371,14 @@ pytest
 ### 9.8 Executar a comparação completa
 
 ```bash
-goodwe-eval --providers legacy gemini openai
+goodwe-eval --providers legacy gemini --gemini-models gemini-3.5-flash-lite gemini-3.1-flash-lite
 ```
 
 Os resultados são gravados em:
 
 - `data/resultados/resultados_legacy_regras-if-elif-sprint2.csv`;
-- `data/resultados/resultados_gemini_*.csv`;
-- `data/resultados/resultados_openai_*.csv`;
+- `data/resultados/resultados_gemini_gemini-3.5-flash-lite.csv`;
+- `data/resultados/resultados_gemini_gemini-3.1-flash-lite.csv`;
 - `data/resultados/resumo_modelos.json`.
 
 ---
@@ -444,4 +447,4 @@ goodwe-charge-assistant-sprint3/
 
 Nenhuma API Key foi exposta no repositório. As credenciais são carregadas por variáveis de ambiente através do arquivo `.env`, que está protegido pelo `.gitignore`.
 
-Os resultados entre Gemini e OpenAI somente serão considerados finais depois da execução real do conjunto de testes.
+Os resultados finais foram produzidos por execução autenticada e estão preservados em CSV e JSON em `data/resultados/`.

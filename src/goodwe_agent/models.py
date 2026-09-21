@@ -18,7 +18,7 @@ def config_from_env(provider: str | None = None, model: str | None = None) -> Mo
     load_dotenv()
     selected = (provider or os.getenv("GOODWE_PROVIDER", "gemini")).lower()
     defaults = {
-        "gemini": os.getenv("GOODWE_GEMINI_MODEL", "gemini-2.5-flash"),
+        "gemini": os.getenv("GOODWE_GEMINI_MODEL", "gemini-3.5-flash-lite"),
         "openai": os.getenv("GOODWE_OPENAI_MODEL", "gpt-4o-mini"),
     }
     if selected not in defaults:
@@ -60,4 +60,3 @@ def build_model(config: ModelConfig):
         )
 
     raise ValueError(f"Provider não suportado: {config.provider}")
-

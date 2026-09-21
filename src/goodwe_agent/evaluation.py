@@ -101,11 +101,15 @@ def evaluate_assistant(assistant: Any, provider: str, model: str) -> tuple[list[
         )
 
     scored = [record for record in records if record["case_id"] not in {"M01-T1", "M01-T2"}]
+    temperature = "0.2 (padrão; configurável por ambiente)"
+    if provider == "gemini" and model.startswith("gemini-3"):
+        temperature = "ignorada pelo modelo (amostragem fixa do provedor)"
+
     summary = {
         "provider": provider,
         "model": model,
         "configuration": {
-            "temperature": "0.2 (padrão; configurável por ambiente)",
+            "temperature": temperature,
             "max_tokens": "500 (padrão; configurável por ambiente)",
             "top_p": "padrão do provedor; não alterado junto com temperature",
         },
@@ -143,17 +147,29 @@ def main() -> None:
         choices=["legacy", "gemini", "openai"],
         default=["legacy", "gemini", "openai"],
     )
+    parser.add_argument(
+        "--gemini-models",
+        nargs="+",
+        help="Avalia várias versões Gemini na mesma execução comparativa.",
+    )
     parser.add_argument("--output-dir", type=Path, default=ROOT / "data" / "resultados")
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    summaries: list[dict[str, Any]] = []
+    run_specs: list[tuple[str, str | None]] = []
     for provider in args.providers:
+        if provider == "gemini" and args.gemini_models:
+            run_specs.extend((provider, model) for model in args.gemini_models)
+        else:
+            run_specs.append((provider, None))
+
+    summaries: list[dict[str, Any]] = []
+    for provider, model_override in run_specs:
         if provider == "legacy":
             assistant = LegacyAssistant()
             model_name = "regras-if-elif-sprint2"
         else:
-            config = config_from_env(provider)
+            config = config_from_env(provider, model_override)
             assistant = GoodWeAgent(build_model(config))
             model_name = config.model
 
@@ -173,4 +189,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

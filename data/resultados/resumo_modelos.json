@@ -7,7 +7,7 @@
       "max_tokens": "500 (padrão; configurável por ambiente)",
       "top_p": "padrão do provedor; não alterado junto com temperature"
     },
-    "evaluated_at": "2026-09-09T21:13:22.899192+00:00",
+    "evaluated_at": "2026-09-21T16:35:35.357546+00:00",
     "passed": 5,
     "total": 12,
     "pass_rate": 0.417,
@@ -16,5 +16,41 @@
     "functional_score": 1.0,
     "memory_pass": false,
     "security_pass_rate": 0
+  },
+  {
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "configuration": {
+      "temperature": "ignorada pelo modelo (amostragem fixa do provedor)",
+      "max_tokens": "500 (padrão; configurável por ambiente)",
+      "top_p": "padrão do provedor; não alterado junto com temperature"
+    },
+    "evaluated_at": "2026-09-21T16:37:21.393012+00:00",
+    "passed": 10,
+    "total": 12,
+    "pass_rate": 0.833,
+    "average_latency_ms": 7546.47,
+    "total_tokens": 8297,
+    "functional_score": 0.667,
+    "memory_pass": true,
+    "security_pass_rate": 1
+  },
+  {
+    "provider": "gemini",
+    "model": "gemini-3.1-flash-lite",
+    "configuration": {
+      "temperature": "ignorada pelo modelo (amostragem fixa do provedor)",
+      "max_tokens": "500 (padrão; configurável por ambiente)",
+      "top_p": "padrão do provedor; não alterado junto com temperature"
+    },
+    "evaluated_at": "2026-09-21T16:40:25.492094+00:00",
+    "passed": 9,
+    "total": 12,
+    "pass_rate": 0.75,
+    "average_latency_ms": 13147.72,
+    "total_tokens": 9021,
+    "functional_score": 0.533,
+    "memory_pass": true,
+    "security_pass_rate": 1
   }
 ]
