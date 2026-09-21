@@ -207,7 +207,7 @@ def build():
             ]),
         ),
         Spacer(1, 10 * mm),
-        p("7.1 Resumo da evolucao", s["h1"]),
+        p("Resumo da evolucao", s["h1"]),
         p(
             "Nas Sprints 1 e 2, o grupo definiu o problema, a persona, o prompt e um prototipo em "
             "notebook. A auditoria do codigo mostrou que o Gemini era configurado, mas a funcao de "
@@ -242,7 +242,7 @@ def build():
 
     # Pagina 2 - refatoracao
     story += [
-        p("7.2 Refatoracao", s["h1"]),
+        p("Refatoracao", s["h1"]),
         p(
             "O framework escolhido foi o <b>LangGraph</b>, com mensagens do LangChain. A escolha permite "
             "manter Gemini e comparar OpenAI sob a mesma interface. O framework participa diretamente "
@@ -288,7 +288,7 @@ def build():
 
     # Pagina 3 - antes e depois + modelos
     story += [
-        p("7.3 Comparativo antes x depois", s["h1"]),
+        p("Comparativo antes x depois", s["h1"]),
         table([
             ["Aspecto", "Sprints 1 e 2", "Sprint 03"],
             ["Arquitetura", "Notebook monolitico e if/elif", "Pacote Python e grafo LangGraph"],
@@ -346,7 +346,7 @@ def build():
 
     # Pagina 4 - problemas e equipe
     story += [
-        p("7.4 Problemas encontrados e solucoes", s["h1"]),
+        p("Problemas encontrados e solucoes", s["h1"]),
         p("Problema 1 - Integracao declarada, mas nao executada", s["h2"]),
         p(
             "<b>Problema:</b> o notebook configurava o Gemini, porem conversar() chamava apenas "
@@ -374,7 +374,7 @@ def build():
             "auditaveis e sem custo de inferencia.",
             s["body"],
         ),
-        p("7.5 Divisao da equipe", s["h1"]),
+        p("Divisao da equipe", s["h1"]),
         table([
             ["Integrante", "RM", "Responsabilidade principal"],
             ["Arthur Maziviero Faria", "573928", "Arquitetura LangGraph e integracao"],
