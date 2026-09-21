@@ -15,7 +15,6 @@ LangGraph, memória por sessão, guardrails e comparação reproduzível de mode
 - Tommaso C. Nagliatti — RM 572147
 - Matheus Martins Lacerda — RM 570843
 
-Preencha a turma no arquivo `integrantes.txt` antes da entrega.
 
 ## Problema abordado
 
